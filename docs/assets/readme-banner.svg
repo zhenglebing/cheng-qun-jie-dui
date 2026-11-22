@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="480" viewBox="0 0 1600 480" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#102A43"/><stop offset=".56" stop-color="#164E63"/><stop offset="1" stop-color="#1D6970"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="1080" y1="65" x2="1440" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D8B875" stop-opacity=".9"/><stop offset="1" stop-color="#D8B875" stop-opacity=".08"/>
+    </linearGradient>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" stroke="#D9E8E6" stroke-opacity=".07"/></pattern>
+  </defs>
+  <rect width="1600" height="480" rx="30" fill="url(#bg)"/>
+  <rect width="1600" height="480" rx="30" fill="url(#grid)"/>
+  <circle cx="1298" cy="244" r="220" fill="url(#glow)" opacity=".45"/>
+  <circle cx="1298" cy="244" r="148" stroke="#E5C98E" stroke-opacity=".28" stroke-width="1.5"/>
+  <circle cx="1298" cy="244" r="108" stroke="#E5C98E" stroke-opacity=".34" stroke-width="1.5" stroke-dasharray="4 10"/>
+  <g stroke="#D9E8E6" stroke-opacity=".68" stroke-width="2">
+    <path d="M1176 158 1240 202 1336 148 1404 206 1364 298 1266 332 1190 278 1240 202 1364 298 1404 206 1336 148"/>
+    <path d="M1190 278 1294 242 1404 206M1240 202 1294 242 1336 148M1266 332 1294 242 1364 298"/>
+  </g>
+  <g fill="#E7C77F" stroke="#173E50" stroke-width="5">
+    <circle cx="1176" cy="158" r="8"/><circle cx="1240" cy="202" r="10"/><circle cx="1336" cy="148" r="8"/><circle cx="1404" cy="206" r="11"/>
+    <circle cx="1190" cy="278" r="9"/><circle cx="1266" cy="332" r="8"/><circle cx="1364" cy="298" r="10"/><circle cx="1294" cy="242" r="15"/>
+  </g>
+  <rect x="92" y="76" width="198" height="38" rx="19" fill="#FFFFFF" fill-opacity=".12" stroke="#FFFFFF" stroke-opacity=".25"/>
+  <circle cx="116" cy="95" r="5" fill="#E7C77F"/>
+  <text x="133" y="101" fill="#E6F0EF" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="15" letter-spacing="2">LEARN · REVIEW · GROW</text>
+  <text x="88" y="208" fill="#FFFFFF" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="64" font-weight="700">成群结队</text>
+  <text x="91" y="263" fill="#E7C77F" font-family="Arial,sans-serif" font-size="31" font-weight="600" letter-spacing="2">REVIEW-AI</text>
+  <text x="92" y="321" fill="#E5EFEE" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="24">面向课程学习与复习的 AI 助手</text>
+  <path d="M92 354H520" stroke="#E7C77F" stroke-opacity=".72" stroke-width="2"/>
+  <text x="92" y="394" fill="#CFDFDE" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="17">课程资料 · 知识问答 · 学习复盘</text>
+  <text x="1135" y="432" fill="#D8E7E5" fill-opacity=".72" font-family="Arial,sans-serif" font-size="13" letter-spacing="3">A SMARTER WAY TO REVIEW</text>
+</svg>
