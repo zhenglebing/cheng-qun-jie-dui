@@ -1,49 +1,30 @@
 @startuml
 skinparam defaultFontName "Microsoft YaHei"
 skinparam shadowing false
-skinparam node {
-  BackgroundColor #FCFDFD
-  BorderColor #1B4B5A
-}
-skinparam artifact {
+skinparam object {
   BackgroundColor #E7F0F2
   BorderColor #1B4B5A
 }
-skinparam cloud {
-  BackgroundColor #FAF3E2
-  BorderColor #C89B3C
-}
-skinparam database {
-  BackgroundColor #E7F0F2
-  BorderColor #1B4B5A
+skinparam arrow {
+  Color #1B4B5A
+  FontColor #16262E
 }
 
-node "用户设备\nPC / 手机浏览器" as DEV {
-  artifact "Review-AI 前端\nHTML + CSS + JS\n（自研）" as FE
-  database "localStorage\n会话与文档元数据" as LS
-}
+' 协作图（通信图）：以「快捷指令问答」场景为例，展示对象间的协作与消息编号
+object "1 : 对话页面\nChatView" as UI
+object "2 : 会话控制器\nChatController" as C
+object "3 : SDK 网关\nCozeGateway" as G
+object "4 : 智能体\nReviewAgent" as A
+object "5 : 会话存储\nSessionStore" as S
 
-node "GitHub Pages\n静态托管（主方案）" as GH {
-  artifact "index.html / assets" as STATIC
-}
-
-node "Vercel\n备用托管" as VC {
-  artifact "同构静态资源" as STATIC2
-}
-
-cloud "扣子 Coze 云平台" as COZE {
-  node "WebSDK 网关" as GW
-  node "智能体 Agent\n人设 + 指令约束" as AG
-  node "文件解析插件" as PL
-  node "大语言模型服务" as LLM
-}
-
-FE ..> STATIC : <<部署>>
-STATIC2 ..> FE : <<灾备切换>>
-FE --> GH : HTTPS 加载页面
-FE --> GW : HTTPS / SSE\n（消息与文件）
-GW --> AG : 内部调用
-AG --> PL : 解析文件
-AG --> LLM : 生成内容
-FE --> LS : 读写会话
+UI --> C : 1.1 触发指令\n（提炼考点）
+C --> S : 1.2 读取上下文
+S --> C : 1.3 返回文档文本
+C --> G : 1.4 提交提示词
+G --> A : 1.5 转发请求
+A --> A : 1.6 校验问题域
+A --> G : 1.7 返回结构化结果
+G --> C : 1.8 回调结果
+C --> S : 1.9 持久化会话
+C --> UI : 1.10 刷新视图
 @enduml

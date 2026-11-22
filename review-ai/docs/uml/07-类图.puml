@@ -1,112 +1,49 @@
 @startuml
 skinparam defaultFontName "Microsoft YaHei"
 skinparam shadowing false
-hide circle
-skinparam linetype ortho
-skinparam entity {
+skinparam node {
   BackgroundColor #FCFDFD
   BorderColor #1B4B5A
-  HeaderBackgroundColor #E7F0F2
+}
+skinparam artifact {
+  BackgroundColor #E7F0F2
+  BorderColor #1B4B5A
+}
+skinparam cloud {
+  BackgroundColor #FAF3E2
+  BorderColor #C89B3C
+}
+skinparam database {
+  BackgroundColor #E7F0F2
+  BorderColor #1B4B5A
 }
 
-entity "student\n学生" as student {
-  * id : BIGINT <<PK>>
-  --
-  * device_id : VARCHAR(64) <<UK>>
-  nickname : VARCHAR(32)
-  * created_at : DATETIME
-  last_active_at : DATETIME
+node "用户设备\nPC / 手机浏览器" as DEV {
+  artifact "Review-AI 前端\nHTML + CSS + JS\n（自研）" as FE
+  database "localStorage\n会话与文档元数据" as LS
 }
 
-entity "document\n课程文档" as document {
-  * id : BIGINT <<PK>>
-  --
-  * student_id : BIGINT <<FK>>
-  * file_name : VARCHAR(255)
-  * file_type : VARCHAR(8)
-  * file_size : INT
-  * parse_status : TINYINT
-  content_digest : CHAR(64)
-  page_count : SMALLINT
-  * uploaded_at : DATETIME
-  deleted_at : DATETIME
+node "GitHub Pages\n静态托管（主方案）" as GH {
+  artifact "index.html / assets" as STATIC
 }
 
-entity "conversation\n复习会话" as conversation {
-  * id : BIGINT <<PK>>
-  --
-  * student_id : BIGINT <<FK>>
-  document_id : BIGINT <<FK>>
-  title : VARCHAR(64)
-  command_count : SMALLINT
-  * status : TINYINT
-  * started_at : DATETIME
-  last_active_at : DATETIME
+node "Vercel\n备用托管" as VC {
+  artifact "同构静态资源" as STATIC2
 }
 
-entity "message\n会话消息" as message {
-  * id : BIGINT <<PK>>
-  --
-  * conversation_id : BIGINT <<FK>>
-  * seq_no : SMALLINT
-  * role : TINYINT
-  * content : TEXT
-  command_id : BIGINT <<FK>>
-  token_used : INT
-  * created_at : DATETIME
+cloud "扣子 Coze 云平台" as COZE {
+  node "WebSDK 网关" as GW
+  node "智能体 Agent\n人设 + 指令约束" as AG
+  node "文件解析插件" as PL
+  node "大语言模型服务" as LLM
 }
 
-entity "command_template\n快捷指令模板" as command_template {
-  * id : BIGINT <<PK>>
-  --
-  * name : VARCHAR(32) <<UK>>
-  * button_text : VARCHAR(16)
-  * prompt_template : TEXT
-  * status : TINYINT
-  updated_by : BIGINT <<FK>>
-  * updated_at : DATETIME
-}
-
-entity "agent_config\n智能体配置" as agent_config {
-  * id : BIGINT <<PK>>
-  --
-  * agent_name : VARCHAR(64)
-  * persona_prompt : TEXT
-  format_rules : TEXT
-  fallback_reply : VARCHAR(255)
-  * version : VARCHAR(16)
-  * status : TINYINT
-  published_at : DATETIME
-  updated_by : BIGINT <<FK>>
-}
-
-entity "call_log\n调用日志" as call_log {
-  * id : BIGINT <<PK>>
-  --
-  conversation_id : BIGINT <<FK>>
-  * request_type : TINYINT
-  latency_ms : INT
-  * status : TINYINT
-  error_code : VARCHAR(32)
-  * created_at : DATETIME
-}
-
-entity "admin\n管理员" as admin {
-  * id : BIGINT <<PK>>
-  --
-  * account : VARCHAR(32) <<UK>>
-  * password_hash : CHAR(64)
-  * role : TINYINT
-  last_login_at : DATETIME
-  * created_at : DATETIME
-}
-
-student ||--o{ document
-student ||--o{ conversation
-document |o--o{ conversation
-conversation ||--o{ message
-conversation ||--o{ call_log
-command_template |o--o{ message
-admin ||--o{ command_template
-admin ||--o{ agent_config
+FE ..> STATIC : <<部署>>
+STATIC2 ..> FE : <<灾备切换>>
+FE --> GH : HTTPS 加载页面
+FE --> GW : HTTPS / SSE\n（消息与文件）
+GW --> AG : 内部调用
+AG --> PL : 解析文件
+AG --> LLM : 生成内容
+FE --> LS : 读写会话
 @enduml
