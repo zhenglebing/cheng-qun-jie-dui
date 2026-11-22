@@ -12,10 +12,9 @@ Review-AI 是一款面向学习课程复习的 AI 助手，帮助学生围绕课
 
 ## 文档
 
-- [下载系统设计说明书 PDF](https://raw.githubusercontent.com/zhenglebing/cheng-qun-jie-dui/refs/heads/main/docs/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.pdf)
-- [下载数据库设计说明书 PDF](https://raw.githubusercontent.com/zhenglebing/cheng-qun-jie-dui/refs/heads/main/docs/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.pdf)
+- [下载系统设计说明书 PDF](https://github.com/zhenglebing/cheng-qun-jie-dui/raw/refs/heads/main/docs/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.pdf)
+- [下载数据库设计说明书 PDF](https://github.com/zhenglebing/cheng-qun-jie-dui/raw/refs/heads/main/docs/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.pdf)
 - UML 图源文件及预览：[docs/uml/](docs/uml/)
 - 其他文档链接：待补充
-
 
 
