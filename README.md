@@ -1,2 +1,16 @@
-# cheng-qun-jie-dui
-近年来，智能体技术迅速发展，尤其是在智能聊天机器人、自动化系统等领域，人工智能逐渐渗透到各行各业，并改变了人们的工作和生活方式。随着技术的进步，越来越多的智能体不仅仅是软件，还与硬件设备紧密结合，例如智能机器人、智能助手、智能手表等，为用户提供更具互动性和实用性的体验。因此，顺应技术发展的变革，让我们来开发一个基于智能体或者多智能体（例如，GPT、Claude、文心一言、kimi等）的软件，为传统的软件赋予全新的功能和用户体验。
+# 成群结队｜Review-AI 学习课程复习助手
+
+## 项目简介
+
+Review-AI 是一款面向学习课程复习的 AI 助手，帮助学生围绕课程资料进行整理与智能问答。项目探索将大语言模型与课程知识库结合，为课程复习提供更便捷的交互体验。
+
+## 原型链接
+
+[打开墨刀原型](https://pb-ytfvupsvdd2eyizlqbbazbqzcaj34oo2vy33saa.ai.modao.ink/index.html)
+
+## 文档
+
+- [下载系统设计说明书 PDF](https://github.com/zhenglebing/cheng-qun-jie-dui/raw/refs/heads/main/docs/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.pdf)
+- [下载数据库设计说明书 PDF](https://github.com/zhenglebing/cheng-qun-jie-dui/raw/refs/heads/main/docs/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E8%AF%B4%E6%98%8E%E4%B9%A6.pdf)
+- UML 图源文件及预览：[docs/uml/](docs/uml/)
+- 其他文档链接：待补充
