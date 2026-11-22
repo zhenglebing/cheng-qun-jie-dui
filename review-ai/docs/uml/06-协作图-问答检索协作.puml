@@ -1,0 +1,49 @@
+@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam node {
+  BackgroundColor #FCFDFD
+  BorderColor #1B4B5A
+}
+skinparam artifact {
+  BackgroundColor #E7F0F2
+  BorderColor #1B4B5A
+}
+skinparam cloud {
+  BackgroundColor #FAF3E2
+  BorderColor #C89B3C
+}
+skinparam database {
+  BackgroundColor #E7F0F2
+  BorderColor #1B4B5A
+}
+
+node "用户设备\nPC / 手机浏览器" as DEV {
+  artifact "Review-AI 前端\nHTML + CSS + JS\n（自研）" as FE
+  database "localStorage\n会话与文档元数据" as LS
+}
+
+node "GitHub Pages\n静态托管（主方案）" as GH {
+  artifact "index.html / assets" as STATIC
+}
+
+node "Vercel\n备用托管" as VC {
+  artifact "同构静态资源" as STATIC2
+}
+
+cloud "扣子 Coze 云平台" as COZE {
+  node "WebSDK 网关" as GW
+  node "智能体 Agent\n人设 + 指令约束" as AG
+  node "文件解析插件" as PL
+  node "大语言模型服务" as LLM
+}
+
+FE ..> STATIC : <<部署>>
+STATIC2 ..> FE : <<灾备切换>>
+FE --> GH : HTTPS 加载页面
+FE --> GW : HTTPS / SSE\n（消息与文件）
+GW --> AG : 内部调用
+AG --> PL : 解析文件
+AG --> LLM : 生成内容
+FE --> LS : 读写会话
+@enduml

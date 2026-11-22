@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>后台03_快捷指令模板 · Review-AI</title>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="b2-agent-config.html">
+      <span class="brand-mark">R</span>
+      <span class="name">Review-AI 控制台</span>
+    </a>
+    <nav class="side-menu" aria-label="控制台菜单">
+      <span class="side-item is-disabled" aria-disabled="true" title="本原型未包含该页面">
+        <iconify-icon icon="@fixed:lucide:layout-dashboard" aria-hidden="true"></iconify-icon>
+        概览
+      </span>
+      <a class="side-item" href="b2-agent-config.html">
+        <iconify-icon icon="@fixed:lucide:user" aria-hidden="true"></iconify-icon>
+        智能体配置
+      </a>
+      <a class="side-item is-active" href="b3-templates.html">
+        <iconify-icon icon="@fixed:lucide:file-text" aria-hidden="true"></iconify-icon>
+        指令模板
+      </a>
+      <a class="side-item" href="b4-records.html">
+        <iconify-icon icon="@fixed:lucide:clock" aria-hidden="true"></iconify-icon>
+        会话记录
+      </a>
+      <a class="side-item" href="b5-monitor.html">
+        <iconify-icon icon="@fixed:lucide:chart-line" aria-hidden="true"></iconify-icon>
+        额度监控
+      </a>
+      <span class="side-item is-disabled" aria-disabled="true" title="本原型未包含该页面">
+        <iconify-icon icon="@fixed:lucide:settings" aria-hidden="true"></iconify-icon>
+        系统设置
+      </span>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-head">
+      <div class="admin-head-left">
+        <h1 class="page-title">快捷指令模板</h1>
+      </div>
+      <div class="admin-actions">
+        <button class="btn btn-primary" type="button" id="addTemplate">＋ 新增指令</button>
+      </div>
+    </div>
+
+    <section class="table-card">
+      <table class="data">
+        <colgroup>
+          <col style="width: 160px;">
+          <col style="width: 160px;">
+          <col>
+          <col style="width: 96px;">
+          <col style="width: 140px;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>指令名称</th>
+            <th>按钮文案</th>
+            <th>实际提示词</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-strong">提炼考点</td>
+            <td>提炼考点</td>
+            <td><span class="ellipsis" title="阅读上传的课程资料，按「核心概念 / 必考算法 / 易错点」三段输出考点提纲，标注所在章节，不编造资料中不存在的内容。">阅读上传的课程资料，按「核心概念 / 必考算法 / 易错点」三段输出考点提纲，标注所在章节…</span></td>
+            <td><span class="status-pill ok">启用</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="link-btn" type="button" data-edit>编辑</button>
+                <span class="divider-v">|</span>
+                <button class="link-btn is-muted" type="button" data-toggle>停用</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="cell-strong">生成习题</td>
+            <td>生成习题</td>
+            <td><span class="ellipsis" title="基于上传的课程资料生成 10 道自测题，覆盖选择、填空与简答，每题附答案与对应知识点位置。">基于上传的课程资料生成 10 道自测题，覆盖选择、填空与简答，每题附答案与对应知识点位置…</span></td>
+            <td><span class="status-pill ok">启用</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="link-btn" type="button" data-edit>编辑</button>
+                <span class="divider-v">|</span>
+                <button class="link-btn is-muted" type="button" data-toggle>停用</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="cell-strong">知识点答疑</td>
+            <td>知识点答疑</td>
+            <td><span class="ellipsis" title="针对用户提出的具体知识点问题，先给出结论，再结合资料中的定义与例子解释，单次回答不超过 600 字。">针对用户提出的具体知识点问题，先给出结论，再结合资料中的定义与例子解释，单次回答不超过…</span></td>
+            <td><span class="status-pill ok">启用</span></td>
+            <td>
+              <div class="row-actions">
+                <button class="link-btn" type="button" data-edit>编辑</button>
+                <span class="divider-v">|</span>
+                <button class="link-btn is-muted" type="button" data-toggle>停用</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="table-foot">
+        <p class="table-note">停用后，前台对应按钮变为灰色不可点击。指令名称全局唯一，重复时保存报错。</p>
+        <div class="pagination">
+          <button class="page-btn" type="button" disabled>上一页</button>
+          <button class="page-btn is-active" type="button">1</button>
+          <button class="page-btn" type="button" disabled>下一页</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  document.getElementById('addTemplate').addEventListener('click', () => {
+    showToast('演示原型未包含新增指令表单');
+  });
+
+  document.querySelectorAll('[data-edit]').forEach((btn) => {
+    btn.addEventListener('click', () => showToast('演示原型未包含指令编辑表单'));
+  });
+
+  document.querySelectorAll('[data-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const row = btn.closest('tr');
+      const pill = row.querySelector('.status-pill');
+      const enabled = pill.classList.contains('ok');
+      pill.className = 'status-pill ' + (enabled ? 'idle' : 'ok');
+      pill.textContent = enabled ? '停用' : '启用';
+      btn.textContent = enabled ? '启用' : '停用';
+      showToast(enabled ? '已停用，前台按钮将置灰不可点击' : '已启用');
+    });
+  });
+</script>
+
+</body>
+</html>

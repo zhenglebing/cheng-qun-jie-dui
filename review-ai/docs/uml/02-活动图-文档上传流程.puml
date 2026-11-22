@@ -1,0 +1,42 @@
+@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #E7F0F2
+  BorderColor #1B4B5A
+  DiamondBackgroundColor #FAF3E2
+  DiamondBorderColor #C89B3C
+}
+
+start
+:学生点击快捷指令\n（提炼考点 / 生成习题 / 知识点答疑）;
+if (已选中文档？) then (否)
+  :提示「请先上传并选择一份资料」;
+  stop
+else (是)
+endif
+:读取当前文档上下文;
+:按指令模板拼装提示词;
+:调用智能体 Agent;
+:智能体判断问题是否属于课程域;
+if (与课程资料相关？) then (否)
+  :返回固定话术\n「我只负责这门课的复习」;
+  :记录一次越界拦截;
+  stop
+else (是)
+endif
+:大模型生成结构化结果;
+:执行格式与字数校验\n（三段结构 / 不超 600 字）;
+while (格式不合规且重试次数 < 2？) is (是)
+  :携带约束重新生成;
+endwhile (否)
+if (最终合规？) then (否)
+  :返回兜底提示语;
+  stop
+else (是)
+endif
+:渲染结果卡片（含复制 / 追问）;
+:写入会话记录;
+:累计调用次数 +1;
+stop
+@enduml

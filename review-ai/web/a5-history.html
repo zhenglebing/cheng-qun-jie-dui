@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>前台05_历史记录 · Review-AI</title>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="a1-home.html">
+      <span class="brand-mark">R</span>
+      <span>
+        <span class="brand-name">Review-AI</span>
+        <span class="brand-sub">大学生课程复习助手</span>
+      </span>
+    </a>
+    <div class="nav-right">
+      <nav class="nav-links">
+        <a href="a1-home.html">首页</a>
+        <a href="a2-workbench.html">工作台</a>
+        <a class="active" href="a5-history.html">历史记录</a>
+      </nav>
+      <a class="btn btn-primary" href="a2-workbench.html">开始复习</a>
+    </div>
+  </div>
+</header>
+
+<main class="narrow" style="padding-top: 48px; padding-bottom: 64px;">
+  <h1 class="page-title">历史记录</h1>
+
+  <div class="alert alert-info" style="margin-top: 16px;">
+    <span class="alert-icon" aria-hidden="true">
+      <iconify-icon icon="@fixed:lucide:info"></iconify-icon>
+    </span>
+    <span>记录保存在当前浏览器，清除缓存会丢失</span>
+  </div>
+
+  <div class="search-box" style="margin-top: 16px;">
+    <iconify-icon icon="@fixed:lucide:search" aria-hidden="true"></iconify-icon>
+    <input id="historySearch" type="text" placeholder="搜索会话内容…" aria-label="搜索会话内容">
+  </div>
+
+  <section class="hist-group" data-group style="margin-top: 32px;">
+    <div class="day-label">今天</div>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <article class="card hist-card" data-search="数据结构 第5章 树与二叉树 数据结构_第5章_树与二叉树.pdf">
+        <div class="hist-main">
+          <h2 class="hist-title">数据结构 第5章 · 树与二叉树</h2>
+          <div class="hist-src">数据结构_第5章_树与二叉树.pdf · 今天 10:24</div>
+          <div class="hist-sums">
+            <span>考点 9 条</span>
+            <span>习题 0 道</span>
+            <span>追问 2 次</span>
+          </div>
+        </div>
+        <a class="text-link hist-go" href="a3-chat-empty.html">继续对话 →</a>
+      </article>
+
+      <article class="card hist-card" data-search="操作系统 进程管理 操作系统_进程管理笔记.txt">
+        <div class="hist-main">
+          <h2 class="hist-title">操作系统 进程管理</h2>
+          <div class="hist-src">操作系统_进程管理笔记.txt · 今天 09:12</div>
+          <div class="hist-sums">
+            <span>考点 7 条</span>
+            <span>习题 4 道</span>
+            <span>追问 1 次</span>
+          </div>
+        </div>
+        <a class="text-link hist-go" href="a3-chat-empty.html">继续对话 →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="hist-group" data-group style="margin-top: 32px;">
+    <div class="day-label">昨天</div>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <article class="card hist-card" data-search="计网 第三章 计算机网络_复习提纲.pdf">
+        <div class="hist-main">
+          <h2 class="hist-title">计网 第三章</h2>
+          <div class="hist-src">计算机网络_复习提纲.pdf · 昨天 21:40</div>
+          <div class="hist-sums">
+            <span>考点 9 条</span>
+            <span>习题 0 道</span>
+            <span>追问 2 次</span>
+          </div>
+        </div>
+        <a class="text-link hist-go" href="a3-chat-empty.html">继续对话 →</a>
+      </article>
+    </div>
+  </section>
+
+  <p class="aux-text" id="searchEmpty" hidden style="margin-top: 32px;">没有匹配的会话，换个关键词试试。</p>
+</main>
+
+<script>
+  const searchInput = document.getElementById('historySearch');
+  searchInput.addEventListener('input', () => {
+    const keyword = searchInput.value.trim().toLowerCase();
+    let visible = 0;
+    document.querySelectorAll('.hist-card').forEach((card) => {
+      const hit = !keyword || card.dataset.search.toLowerCase().includes(keyword);
+      card.hidden = !hit;
+      if (hit) visible += 1;
+    });
+    document.querySelectorAll('[data-group]').forEach((group) => {
+      const hasCard = Array.from(group.querySelectorAll('.hist-card')).some((card) => !card.hidden);
+      group.hidden = !hasCard;
+    });
+    document.getElementById('searchEmpty').hidden = visible > 0;
+  });
+</script>
+
+</body>
+</html>

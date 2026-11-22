@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>后台05_额度与异常监控 · Review-AI</title>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/app.js" defer></script>
+<script src="https://registry.npmmirror.com/echarts/6.1.0/files/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="b2-agent-config.html">
+      <span class="brand-mark">R</span>
+      <span class="name">Review-AI 控制台</span>
+    </a>
+    <nav class="side-menu" aria-label="控制台菜单">
+      <span class="side-item is-disabled" aria-disabled="true" title="本原型未包含该页面">
+        <iconify-icon icon="@fixed:lucide:layout-dashboard" aria-hidden="true"></iconify-icon>
+        概览
+      </span>
+      <a class="side-item" href="b2-agent-config.html">
+        <iconify-icon icon="@fixed:lucide:user" aria-hidden="true"></iconify-icon>
+        智能体配置
+      </a>
+      <a class="side-item" href="b3-templates.html">
+        <iconify-icon icon="@fixed:lucide:file-text" aria-hidden="true"></iconify-icon>
+        指令模板
+      </a>
+      <a class="side-item" href="b4-records.html">
+        <iconify-icon icon="@fixed:lucide:clock" aria-hidden="true"></iconify-icon>
+        会话记录
+      </a>
+      <a class="side-item is-active" href="b5-monitor.html">
+        <iconify-icon icon="@fixed:lucide:chart-line" aria-hidden="true"></iconify-icon>
+        额度监控
+      </a>
+      <span class="side-item is-disabled" aria-disabled="true" title="本原型未包含该页面">
+        <iconify-icon icon="@fixed:lucide:settings" aria-hidden="true"></iconify-icon>
+        系统设置
+      </span>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-head">
+      <div class="admin-head-left">
+        <h1 class="page-title">额度与异常监控</h1>
+      </div>
+      <p class="aux-text" style="display: inline-flex; align-items: center; gap: 8px;">
+        <iconify-icon icon="@fixed:lucide:refresh-cw" aria-hidden="true"></iconify-icon>
+        数据每 5 分钟刷新
+      </p>
+    </div>
+
+    <div class="alert alert-danger" style="margin-top: 16px;">
+      <span class="alert-icon" aria-hidden="true">!</span>
+      <span>剩余额度低于 30%，请及时充值，或切换至备用部署方案。</span>
+    </div>
+
+    <section class="metric-grid">
+      <article class="card metric-card">
+        <div class="metric-label">今日调用次数</div>
+        <div class="metric-value">128<span class="unit">/ 500</span></div>
+        <div class="metric-sub is-ok">已用 25.6%</div>
+      </article>
+      <article class="card metric-card">
+        <div class="metric-label">剩余额度</div>
+        <div class="metric-value">372<span class="unit">次</span></div>
+        <div class="metric-sub is-warn">预计可用 3 天</div>
+      </article>
+      <article class="card metric-card">
+        <div class="metric-label">平均响应时长</div>
+        <div class="metric-value">8.4<span class="unit">秒</span></div>
+        <div class="metric-sub is-warn">较昨日 +0.6s</div>
+      </article>
+      <article class="card metric-card">
+        <div class="metric-label">失败请求</div>
+        <div class="metric-value">3<span class="unit">次</span></div>
+        <div class="metric-sub is-danger">其中额度不足 2 次</div>
+      </article>
+    </section>
+
+    <div class="monitor-grid">
+      <section class="card chart-card">
+        <div class="chart-head">
+          <h2 class="card-title">近 7 日调用趋势</h2>
+          <span class="aux-text">单位：次</span>
+        </div>
+        <div class="chart" id="trendChart" role="img" aria-label="近 7 日调用趋势：11月15日110次，16日124次，17日133次，18日120次，19日140次，20日146次，21日138次"></div>
+      </section>
+
+      <section class="card chart-card">
+        <h2 class="card-title">异常日志</h2>
+        <div class="log-list">
+          <div class="log-item">
+            <span class="log-dot red" aria-hidden="true"></span>
+            <div>
+              <div class="log-time">15:58</div>
+              <div class="log-text">额度告警：剩余额度低于 30%</div>
+            </div>
+          </div>
+          <div class="log-item">
+            <span class="log-dot orange" aria-hidden="true"></span>
+            <div>
+              <div class="log-time">14:12</div>
+              <div class="log-text">解析失败：扫描版 PDF（计算机网络_复习提纲.pdf）</div>
+            </div>
+          </div>
+          <div class="log-item">
+            <span class="log-dot green" aria-hidden="true"></span>
+            <div>
+              <div class="log-time">11:30</div>
+              <div class="log-text">SDK 请求超时，已自动重试并成功</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <p class="foot-note">额度低于 30% 时顶部出现固定警示条，前台同时弹出一次友好提示。</p>
+  </main>
+</div>
+
+<script>
+  (function () {
+    const el = document.getElementById('trendChart');
+    const days = ['11/15', '11/16', '11/17', '11/18', '11/19', '11/20', '11/21'];
+    const values = [110, 124, 133, 120, 140, 146, 138];
+
+    if (typeof echarts === 'undefined') {
+      el.innerHTML = '<p class="aux-text" style="padding-top:16px;">图表资源未加载。数据：11/15 110 · 11/16 124 · 11/17 133 · 11/18 120 · 11/19 140 · 11/20 146 · 11/21 138</p>';
+      return;
+    }
+
+    const chart = echarts.init(el);
+    chart.setOption({
+      grid: { left: 8, right: 16, top: 16, bottom: 8, containLabel: true },
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: '#FFFFFF',
+        borderColor: '#E3E8EA',
+        borderWidth: 1,
+        padding: [8, 16],
+        textStyle: { color: '#16262E', fontSize: 12, fontFamily: 'PingFang SC' },
+        axisPointer: { lineStyle: { color: '#E3E8EA' } },
+        formatter: function (params) {
+          return params[0].axisValue + '　' + params[0].data + ' 次';
+        }
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: days,
+        axisLine: { lineStyle: { color: '#E3E8EA' } },
+        axisTick: { show: false },
+        axisLabel: { color: '#8A979D', fontSize: 12, fontFamily: 'PingFang SC' }
+      },
+      yAxis: {
+        type: 'value',
+        min: 0,
+        max: 150,
+        interval: 50,
+        axisLine: { show: false },
+        axisTick: { show: false },
+        splitLine: { lineStyle: { color: '#E3E8EA' } },
+        axisLabel: { color: '#8A979D', fontSize: 12, fontFamily: 'PingFang SC' }
+      },
+      series: [{
+        type: 'line',
+        data: values,
+        symbol: 'circle',
+        symbolSize: 6,
+        showSymbol: true,
+        lineStyle: { color: '#1B4B5A', width: 2 },
+        itemStyle: { color: '#1B4B5A', borderColor: '#FFFFFF', borderWidth: 1 },
+        areaStyle: { color: 'rgba(27, 75, 90, 0.07)' }
+      }]
+    });
+    window.addEventListener('resize', () => chart.resize());
+  })();
+</script>
+
+</body>
+</html>

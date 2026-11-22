@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>后台04_会话与文档记录 · Review-AI</title>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="b2-agent-config.html">
+      <span class="brand-mark">R</span>
+      <span class="name">Review-AI 控制台</span>
+    </a>
+    <nav class="side-menu" aria-label="控制台菜单">
+      <span class="side-item is-disabled" aria-disabled="true" title="本原型未包含该页面">
+        <iconify-icon icon="@fixed:lucide:layout-dashboard" aria-hidden="true"></iconify-icon>
+        概览
+      </span>
+      <a class="side-item" href="b2-agent-config.html">
+        <iconify-icon icon="@fixed:lucide:user" aria-hidden="true"></iconify-icon>
+        智能体配置
+      </a>
+      <a class="side-item" href="b3-templates.html">
+        <iconify-icon icon="@fixed:lucide:file-text" aria-hidden="true"></iconify-icon>
+        指令模板
+      </a>
+      <a class="side-item is-active" href="b4-records.html">
+        <iconify-icon icon="@fixed:lucide:clock" aria-hidden="true"></iconify-icon>
+        会话记录
+      </a>
+      <a class="side-item" href="b5-monitor.html">
+        <iconify-icon icon="@fixed:lucide:chart-line" aria-hidden="true"></iconify-icon>
+        额度监控
+      </a>
+      <span class="side-item is-disabled" aria-disabled="true" title="本原型未包含该页面">
+        <iconify-icon icon="@fixed:lucide:settings" aria-hidden="true"></iconify-icon>
+        系统设置
+      </span>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-head">
+      <div class="admin-head-left">
+        <h1 class="page-title">会话与文档记录</h1>
+      </div>
+      <p class="aux-text">记录保留 30 天</p>
+    </div>
+
+    <form class="filter-bar" id="filterForm">
+      <div class="filter-field">
+        <span class="filter-label">时间范围</span>
+        <input class="input" type="text" value="2026-11-15 ~ 2026-11-21" aria-label="时间范围">
+      </div>
+      <div class="filter-field">
+        <span class="filter-label">状态</span>
+        <select class="select" aria-label="状态筛选">
+          <option>全部状态</option>
+          <option>正常</option>
+          <option>额度不足</option>
+          <option>解析失败</option>
+        </select>
+      </div>
+      <div class="filter-field">
+        <span class="filter-label">关键词</span>
+        <input class="input" type="text" placeholder="会话 ID / 文档名" aria-label="关键词">
+      </div>
+      <button class="btn btn-primary" type="submit">查询</button>
+    </form>
+
+    <section class="table-card">
+      <table class="data">
+        <colgroup>
+          <col style="width: 190px;">
+          <col style="width: 170px;">
+          <col>
+          <col style="width: 110px;">
+          <col style="width: 120px;">
+          <col style="width: 120px;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>会话 ID</th>
+            <th>开始时间</th>
+            <th>文档</th>
+            <th>指令次数</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-strong">S-20261121-0031</td>
+            <td>2026-11-21 15:42</td>
+            <td>数据结构_第5章_树与二叉树.pdf</td>
+            <td>3 次</td>
+            <td><span class="status-pill ok">正常</span></td>
+            <td><button class="link-btn" type="button" data-detail>查看详情</button></td>
+          </tr>
+          <tr class="row-danger">
+            <td class="cell-strong">S-20261121-0029</td>
+            <td>2026-11-21 14:56</td>
+            <td>计算机网络_复习提纲.pdf</td>
+            <td>5 次</td>
+            <td><span class="status-pill err">额度不足</span></td>
+            <td><button class="link-btn" type="button" data-detail>查看详情</button></td>
+          </tr>
+          <tr>
+            <td class="cell-strong">S-20261121-0024</td>
+            <td>2026-11-21 11:30</td>
+            <td>操作系统_进程管理笔记.txt</td>
+            <td>1 次</td>
+            <td><span class="status-pill err">解析失败</span></td>
+            <td><button class="link-btn" type="button" data-detail>查看详情</button></td>
+          </tr>
+          <tr>
+            <td class="cell-strong">S-20261121-0018</td>
+            <td>2026-11-21 09:08</td>
+            <td>数据结构_第5章_树与二叉树.pdf</td>
+            <td>2 次</td>
+            <td><span class="status-pill ok">正常</span></td>
+            <td><button class="link-btn" type="button" data-detail>查看详情</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="table-foot">
+        <p class="table-note">共 4 条记录</p>
+        <div class="pagination">
+          <button class="page-btn" type="button" disabled>上一页</button>
+          <button class="page-btn is-active" type="button">1</button>
+          <button class="page-btn" type="button" disabled>下一页</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  document.getElementById('filterForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const keyword = event.target.querySelector('input[aria-label="关键词"]').value.trim();
+    showToast(keyword ? '已按「' + keyword + '」查询，共 4 条记录' : '已按条件查询，共 4 条记录');
+  });
+
+  document.querySelectorAll('[data-detail]').forEach((btn) => {
+    btn.addEventListener('click', () => showToast('演示原型未包含会话详情页'));
+  });
+</script>
+
+</body>
+</html>

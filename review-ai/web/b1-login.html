@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>后台01_管理员登录 · Review-AI</title>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body>
+
+<div class="login-page">
+  <section class="login-left">
+    <div class="console-mark"><span class="star">✦</span> REVIEW-AI CONSOLE</div>
+
+    <div class="login-hero">
+      <h1 class="login-title">运营与分析<br>控制台</h1>
+      <p class="login-desc">配置复习助教的人设与快捷指令，查看会话记录、额度使用与异常告警。所有改动保存并发布后对前台生效。</p>
+    </div>
+
+    <div class="login-foot">成群结队 · 软件工程课程项目</div>
+
+    <span class="login-deco d1" aria-hidden="true">✦</span>
+    <span class="login-deco d2" aria-hidden="true">✦</span>
+    <span class="login-deco d3" aria-hidden="true">✦</span>
+  </section>
+
+  <section class="login-right">
+    <form class="login-form" id="loginForm" novalidate>
+      <h2 class="login-form-title">管理员登录</h2>
+      <p class="login-form-sub">仅限团队成员使用</p>
+
+      <div class="field">
+        <label class="field-label" for="account">账号</label>
+        <input class="input" id="account" name="account" type="text" autocomplete="username" placeholder="请输入管理员账号">
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="password">密码</label>
+        <input class="input" id="password" name="password" type="password" autocomplete="current-password" placeholder="请输入登录密码">
+      </div>
+
+      <div style="margin-top: 24px;">
+        <button class="btn btn-primary btn-block" type="submit">登录</button>
+      </div>
+
+      <div class="form-line">
+        <button class="link-btn" type="button" id="forgot" style="font-size: 12px;">忘记密码？</button>
+      </div>
+
+      <p class="form-note">连续输错 3 次将锁定 5 分钟</p>
+    </form>
+  </section>
+</div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const account = document.getElementById('account').value.trim();
+    const password = document.getElementById('password').value.trim();
+    if (!account || !password) {
+      showToast('请输入账号和密码');
+      return;
+    }
+    window.location.href = 'b2-agent-config.html';
+  });
+
+  document.getElementById('forgot').addEventListener('click', () => {
+    showToast('请联系团队管理员重置密码');
+  });
+</script>
+
+</body>
+</html>

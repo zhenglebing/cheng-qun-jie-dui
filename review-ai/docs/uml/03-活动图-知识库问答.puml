@@ -1,0 +1,48 @@
+@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor #1B4B5A
+  LifeLineBorderColor #B4B2A9
+  ParticipantBackgroundColor #E7F0F2
+  ParticipantBorderColor #1B4B5A
+  ActorBackgroundColor #FFFFFF
+  ActorBorderColor #1B4B5A
+}
+
+actor "学生" as U
+participant "前端页面\n（浏览器）" as W
+participant "扣子 WebSDK\n网关" as S
+participant "文件解析插件" as P
+participant "会话存储\nlocalStorage" as D
+
+U -> W : 1. 选择本地文件
+activate W
+W -> W : 2. 校验格式与大小
+alt 校验不通过
+  W --> U : 3a. 错误提示
+else 校验通过
+  W -> W : 3b. 显示上传进度
+  W -> S : 4. upload(file)
+  activate S
+  S -> P : 5. 提交文件流
+  activate P
+  P -> P : 6. 提取文本内容
+  alt 解析失败
+    P --> S : 7a. error
+    S --> W : 8a. 失败回调
+    W --> U : 9a. 标记「解析失败」
+  else 解析成功
+    P --> S : 7b. 文本内容
+    deactivate P
+    S --> W : 8b. 文档对象
+    deactivate S
+    W -> D : 9b. 保存文档元数据
+    activate D
+    D --> W : 10b. 写入成功
+    deactivate D
+    W --> U : 11b. 状态「已解析」
+  end
+end
+deactivate W
+@enduml

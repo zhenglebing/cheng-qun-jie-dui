@@ -1,0 +1,49 @@
+@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor #1B4B5A
+  LifeLineBorderColor #B4B2A9
+  ParticipantBackgroundColor #E7F0F2
+  ParticipantBorderColor #1B4B5A
+  ActorBackgroundColor #FFFFFF
+  ActorBorderColor #1B4B5A
+}
+
+actor "学生" as U
+participant "对话页面\nChatView" as W
+participant "扣子 WebSDK\n网关" as S
+participant "智能体 Agent\n（人设+指令约束）" as A
+participant "大语言模型" as M
+participant "会话存储" as D
+
+U -> W : 1. 点击「提炼考点」
+activate W
+W -> D : 2. 读取当前文档上下文
+activate D
+D --> W : 3. 文档文本
+deactivate D
+W -> S : 4. sendMessage(提示词)
+activate S
+S -> A : 5. 转发请求
+activate A
+A -> A : 6. 校验问题域
+alt 越界问题
+  A --> S : 7a. 固定话术
+  S --> W : 8a. 回复
+  W --> U : 9a. 展示提示
+else 课程相关问题
+  A -> M : 7b. 生成结构化考点
+  activate M
+  M --> A : 8b. 三段式结果
+  deactivate M
+  A -> A : 9b. 格式与字数校验
+  A --> S : 10b. 结果
+  deactivate A
+  S --> W : 11b. 流式返回
+  deactivate S
+  W -> D : 12b. 写入会话记录
+  W --> U : 13b. 渲染结果卡片
+end
+deactivate W
+@enduml

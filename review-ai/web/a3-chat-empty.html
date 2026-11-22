@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>前台03_对话主界面-空态 · Review-AI</title>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body class="app-page">
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="a1-home.html">
+      <span class="brand-mark">R</span>
+      <span>
+        <span class="brand-name">Review-AI</span>
+        <span class="brand-sub">大学生课程复习助手</span>
+      </span>
+    </a>
+    <div class="nav-right">
+      <nav class="nav-links">
+        <a href="a1-home.html">首页</a>
+        <a class="active" href="a2-workbench.html">工作台</a>
+        <a href="a5-history.html">历史记录</a>
+      </nav>
+      <a class="btn btn-primary" href="a2-workbench.html">开始复习</a>
+    </div>
+  </div>
+</header>
+
+<div class="chat-app">
+  <!-- 左：会话列表 -->
+  <aside class="conv-panel" aria-label="会话列表">
+    <button class="btn btn-secondary btn-block" type="button" id="newChat">
+      <iconify-icon icon="@fixed:lucide:plus" aria-hidden="true"></iconify-icon>
+      新建对话
+    </button>
+    <div class="conv-list">
+      <a class="conv-item is-active" href="a3-chat-empty.html">
+        <div class="conv-title">数据结构 第5章</div>
+        <div class="conv-time">今天 10:24</div>
+      </a>
+      <button class="conv-item" type="button" data-demo>
+        <div class="conv-title">操作系统 进程管理</div>
+        <div class="conv-time">今天 09:12</div>
+      </button>
+      <button class="conv-item" type="button" data-demo>
+        <div class="conv-title">计网 第三章</div>
+        <div class="conv-time">昨天 21:40</div>
+      </button>
+      <button class="conv-item" type="button" data-demo>
+        <div class="conv-title">昨晚的复习</div>
+        <div class="conv-time">昨天 19:05</div>
+      </button>
+    </div>
+  </aside>
+
+  <!-- 中：对话区 -->
+  <section class="chat-main">
+    <div class="chat-head">
+      <div class="chat-file">
+        <span class="name">数据结构_第5章_树与二叉树.pdf</span>
+      </div>
+      <span class="ai-state"><span class="dot"></span> AI 复习助教 · 在线</span>
+    </div>
+
+    <div class="messages">
+      <div class="msg-row">
+        <div class="avatar" aria-hidden="true">R</div>
+        <div class="bubble-ai">
+          我是你的复习助手。已读取《数据结构_第5章_树与二叉树.pdf》，可以直接点下面的按钮，或者问我任何课程问题。
+        </div>
+      </div>
+      <div class="chip-row">
+        <a class="chip" href="a4-chat-result.html"><span class="star">✦</span> 提炼考点</a>
+        <a class="chip" href="a4-chat-result.html"><span class="star">✦</span> 生成习题</a>
+        <a class="chip" href="a4-chat-result.html"><span class="star">✦</span> 知识点答疑</a>
+      </div>
+    </div>
+
+    <div class="composer">
+      <form class="composer-box" id="composerForm">
+        <input id="questionInput" type="text" autocomplete="off" placeholder="输入你的问题，例如：完全二叉树和满二叉树有什么区别？" aria-label="输入你的问题">
+        <button class="send-btn" type="submit" aria-label="发送">
+          <span class="symbol" aria-hidden="true">↑</span>
+        </button>
+      </form>
+      <p class="composer-tip">内容由 AI 生成，请以教材为准</p>
+    </div>
+  </section>
+
+  <!-- 右：上下文 -->
+  <aside class="ctx-panel" aria-label="会话上下文">
+    <section class="ctx-card">
+      <h2 class="card-title">当前资料</h2>
+      <div class="ctx-file">数据结构_第5章_树与二叉树.pdf</div>
+      <div class="ctx-meta">2.4MB · 已解析</div>
+      <div style="margin-top: 8px;">
+        <a class="text-link text-link-sm" href="a2-workbench.html">更换资料 →</a>
+      </div>
+    </section>
+
+    <section class="ctx-card">
+      <h2 class="card-title">本次会话</h2>
+      <div class="ctx-meta" style="margin-top: 8px;">提炼考点 1 次 · 习题 0 道</div>
+      <div class="mini-progress" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" aria-label="本次会话进度">
+        <span style="width: 33%"></span>
+      </div>
+    </section>
+  </aside>
+</div>
+
+<script>
+  document.getElementById('newChat').addEventListener('click', () => showToast('已新建对话'));
+  document.querySelectorAll('[data-demo]').forEach((item) => {
+    item.addEventListener('click', () => showToast('演示原型仅提供「数据结构 第5章」会话内容'));
+  });
+  document.getElementById('composerForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!document.getElementById('questionInput').value.trim()) {
+      showToast('先输入一个课程问题');
+      return;
+    }
+    window.location.href = 'a4-chat-result.html';
+  });
+</script>
+
+</body>
+</html>

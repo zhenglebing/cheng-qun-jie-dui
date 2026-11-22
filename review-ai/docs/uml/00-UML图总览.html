@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Review-AI UML 图集（7 张）</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#F6F8F8;color:#16262E;font-size:14px;line-height:1.75}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 24px 64px}
+h1{font-size:22px;font-weight:600;margin-bottom:6px}
+.sub{font-size:13px;color:#5A6B73;margin-bottom:28px}
+.item{background:#fff;border:1px solid #E3E8EA;border-radius:12px;padding:22px 24px;margin-bottom:22px}
+.tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:5px;background:#E7F0F2;color:#1B4B5A;margin-bottom:8px}
+.tag.gold{background:#FAF3E2;color:#8A6520}
+h2{font-size:16px;font-weight:600;margin-bottom:4px}
+.meta{font-size:12px;color:#8A979D;margin-bottom:14px}
+.imgbox{background:#FCFDFD;border:1px solid #EDF1F2;border-radius:8px;padding:12px;text-align:center;margin-bottom:16px}
+.imgbox img{max-width:100%;height:auto;display:block;margin:0 auto}
+.cap{font-size:11px;color:#8A979D;margin-top:8px}
+.desc{font-size:13.5px;color:#2B3A41;line-height:1.85;background:#FBFCFC;border-left:3px solid #1B4B5A;padding:12px 16px;border-radius:0 6px 6px 0}
+.desc b{color:#1B4B5A}
+.note{background:#FAF3E2;border:1px solid #F0E1C2;border-radius:9px;padding:14px 16px;font-size:13px;color:#7A5C18;line-height:1.8;margin-bottom:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Review-AI · UML 与 ER 图集</h1>
+  <div class="sub">共 8 张（UML 7 张 + ER 1 张）｜ 源文件 .puml 可随时改 ｜ PNG 直接插入 Word，SVG 用于高清印刷</div>
+
+  <div class="note">
+    <b>用法：</b>文档里每张图按「图 3-1 ×××」编号，图下方配下面的图说文字即可。要改内容，编辑同名 <code>.puml</code> 文件后重新渲染（<code>python render.py</code>），不要用图片工具涂改。
+  </div>
+
+  <div class="item">
+    <span class="tag">需求分析</span>
+    <h2>图 3-1　系统用例图</h2>
+    <div class="meta">Use Case Diagram ｜ 对应作业要求：用用例图进行需求分析</div>
+    <div class="imgbox"><img src="png/01-用例图.png" alt="系统用例图"><div class="cap">参与者：在校学生 / 团队管理员 / 扣子平台（外部系统）</div></div>
+    <div class="desc">
+      系统包含两类人类参与者：<b>在校学生</b>（前台使用者）与<b>团队管理员</b>（后台运维者），以及一个外部系统参与者<b>扣子智能体平台</b>。学生侧 5 个用例覆盖"上传—提炼—出题—答疑—回看"的完整复习闭环；管理员侧 4 个用例对应配置、模板、记录、额度四类运维动作。四个问答类用例均 include「解析文档内容」，说明文档解析是本系统的<b>公共前置能力</b>，而非某个功能私有的逻辑——这也是把它单独设计成插件的依据。
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="tag">业务流程</span>
+    <h2>图 3-2　活动图：文档上传与解析</h2>
+    <div class="meta">Activity Diagram ｜ 对应作业要求：用活动图描述业务流程</div>
+    <div class="imgbox"><img src="png/02-活动图-文档上传解析.png" alt="活动图-文档上传解析"></div>
+    <div class="desc">
+      描述从选择文件到资料可用的完整流程，含两道判定：<b>格式与大小校验</b>（PDF / TXT 白名单、单文件 ≤ 20MB）在浏览器端完成，避免无效上传；<b>文本可提取性判定</b>由扣子解析插件返回，失败时进入"解析失败"分支并引导改用文字版 PDF。该分支与第一次作业风险分析中的第 2 条（扫描版 PDF 识别效果差）形成对策闭环。
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="tag">业务流程</span>
+    <h2>图 3-3　活动图：快捷指令问答</h2>
+    <div class="meta">Activity Diagram ｜ 核心业务流程</div>
+    <div class="imgbox"><img src="png/03-活动图-快捷指令问答.png" alt="活动图-快捷指令问答"></div>
+    <div class="desc">
+      核心业务流程。三个判定节点体现系统的<b>约束设计</b>：是否已选中文档（前置条件）、是否属于课程域（人设约束）、格式是否合规（输出约束，最多重试 2 次）。越界问题<b>不进入大模型生成</b>，直接返回固定话术，从而保证 token 消耗可控、回答不跑偏。这是"智能体作为系统内置能力而非通用聊天"的具体实现方式。
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="tag gold">重要算法 / 交互</span>
+    <h2>图 4-1　时序图：文档上传与解析</h2>
+    <div class="meta">Sequence Diagram ｜ 含两条 alt 分支</div>
+    <div class="imgbox"><img src="png/04-时序图-文档上传解析.png" alt="时序图-文档上传解析"></div>
+    <div class="desc">
+      五个对象、两条 alt 分支。设计要点：前端在上传前完成校验（服务端不做二次校验，因本系统无自建后端，这是<b>明确的架构取舍</b>）；解析插件返回文本后，前端仅把<b>文档元数据</b>写入 localStorage，正文不落库，体现"轻后端"形态。
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="tag gold">重要算法 / 交互</span>
+    <h2>图 4-2　时序图：快捷指令问答</h2>
+    <div class="meta">Sequence Diagram ｜ 核心交互链路</div>
+    <div class="imgbox"><img src="png/05-时序图-快捷指令问答.png" alt="时序图-快捷指令问答"></div>
+    <div class="desc">
+      一次问答请求的完整消息序列。关键在于智能体 Agent 的两处<b>自处理步骤</b>（6. 校验问题域、9. 格式校验）——它们不额外调用模型，是控制响应时延与费用的主要手段。返回采用流式，前端边接收边渲染，用户感知时延从 8 秒降至 2 秒左右。
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="tag">对象协作</span>
+    <h2>图 4-3　协作图：问答场景对象协作</h2>
+    <div class="meta">Communication Diagram ｜ 对应作业要求：用协作图展示对象协作与消息传递</div>
+    <div class="imgbox"><img src="png/06-协作图-问答对象协作.png" alt="协作图"></div>
+    <div class="desc">
+      以同一问答场景，从对象结构视角展示 5 个对象的协作与消息编号。1.1–1.10 的编号体现"页面触发 → 控制器编排 → 网关转发 → 智能体处理 → 存储持久化 → 视图刷新"的职责链。核心设计意图：<b>页面不直接与网关耦合</b>，由会话控制器承担编排职责，便于后续替换智能体平台而不改动视图层。
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="tag">部署架构</span>
+    <h2>图 5-1　部署图</h2>
+    <div class="meta">Deployment Diagram ｜ 对应作业要求：后端设计展示</div>
+    <div class="imgbox"><img src="png/07-部署图.png" alt="部署图"></div>
+    <div class="desc">
+      三个部署节点。前端为纯静态资源，主方案 GitHub Pages，备选 Vercel（与第一次作业风险应对第 4 条一致）；运行时不在本地运行任何服务端逻辑，智能体能力全部由扣子云平台提供；会话与文档元数据保存在浏览器 localStorage，是<b>有意的隐私与成本取舍</b>——数据不上传服务器，代价是换设备不同步，该限制已在前台页面明示。
+    </div>
+  </div>
+
+  <div class="item">
+    <span class="tag gold">数据库设计</span>
+    <h2>图 6-1　系统 ER 图</h2>
+    <div class="meta">Entity-Relationship Diagram ｜ IE 记号 ｜ 对应《数据库设计说明书》第 3 章</div>
+    <div class="imgbox"><img src="png/08-ER图.png" alt="系统 ER 图"><div class="cap">8 个实体 ｜ 业务主表 5 张 + 配置运维表 3 张</div></div>
+    <div class="desc">
+      实体分为两组：<b>业务主实体</b>（student、document、conversation、message、command_template）构成复习闭环的数据骨架；<b>配置运维实体</b>（agent_config、call_log、admin）支撑后台的配置、监控与鉴权。关系设计上有一处刻意的取舍：<code>message.command_id</code> 与 <code>agent_config.updated_by</code> 采用<b>置 NULL 而非级联删除</b>——消息属于历史事实，不应因模板或账号被删而消失，这是审计类数据的通用处理方式。完整字段定义、关系模式、ORM 映射见《数据库设计说明书》。
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

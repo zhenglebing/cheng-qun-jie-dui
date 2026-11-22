@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>后台02_智能体配置 · Review-AI</title>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="b2-agent-config.html">
+      <span class="brand-mark">R</span>
+      <span class="name">Review-AI 控制台</span>
+    </a>
+    <nav class="side-menu" aria-label="控制台菜单">
+      <span class="side-item is-disabled" aria-disabled="true" title="本原型未包含该页面">
+        <iconify-icon icon="@fixed:lucide:layout-dashboard" aria-hidden="true"></iconify-icon>
+        概览
+      </span>
+      <a class="side-item is-active" href="b2-agent-config.html">
+        <iconify-icon icon="@fixed:lucide:user" aria-hidden="true"></iconify-icon>
+        智能体配置
+      </a>
+      <a class="side-item" href="b3-templates.html">
+        <iconify-icon icon="@fixed:lucide:file-text" aria-hidden="true"></iconify-icon>
+        指令模板
+      </a>
+      <a class="side-item" href="b4-records.html">
+        <iconify-icon icon="@fixed:lucide:clock" aria-hidden="true"></iconify-icon>
+        会话记录
+      </a>
+      <a class="side-item" href="b5-monitor.html">
+        <iconify-icon icon="@fixed:lucide:chart-line" aria-hidden="true"></iconify-icon>
+        额度监控
+      </a>
+      <span class="side-item is-disabled" aria-disabled="true" title="本原型未包含该页面">
+        <iconify-icon icon="@fixed:lucide:settings" aria-hidden="true"></iconify-icon>
+        系统设置
+      </span>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-head">
+      <div class="admin-head-left">
+        <h1 class="page-title">智能体配置</h1>
+        <span class="badge-ok">已发布 v1.2</span>
+      </div>
+      <div class="admin-actions">
+        <a class="btn btn-secondary" href="a3-chat-empty.html" target="_blank" rel="noopener">预览效果</a>
+        <button class="btn btn-primary" type="button" id="publish">保存并发布</button>
+      </div>
+    </div>
+
+    <form class="card admin-card" id="agentForm">
+      <div class="form-block">
+        <label class="field-label" for="agentName">智能体名称</label>
+        <input class="input" id="agentName" type="text" value="Review-AI 复习助教">
+      </div>
+
+      <div class="form-block">
+        <label class="field-label" for="persona">人设提示词</label>
+        <textarea class="textarea" id="persona" style="height: 152px;">你是一名面向大学生的课程复习助教。只回答与用户上传课程资料相关的问题。回答时优先使用结构化列表，不使用口语化寒暄，不编造资料中不存在的知识点。</textarea>
+        <p class="field-hint">修改后需重新发布才能生效</p>
+      </div>
+
+      <div class="form-block">
+        <span class="field-label">输出格式约束</span>
+        <label class="check-row">
+          <input type="checkbox" checked>
+          <span>固定三段结构：核心概念 / 必考算法 / 易错点</span>
+        </label>
+        <label class="check-row">
+          <input type="checkbox" checked>
+          <span>不使用 Markdown 表格，纯文本列表输出</span>
+        </label>
+        <label class="check-row">
+          <input type="checkbox" checked>
+          <span>单次回答不超过 600 字，超出时提示是否继续展开</span>
+        </label>
+      </div>
+
+      <div class="form-block">
+        <label class="field-label" for="fallback">越界问题回复话术</label>
+        <input class="input" id="fallback" type="text" value="我只负责这门课的复习，换个和课程有关的问题吧。">
+      </div>
+
+      <div class="form-block">
+        <span class="field-label">挂载能力</span>
+        <div class="ability-tags">
+          <span class="ability on">
+            文件读取插件
+            <span aria-hidden="true">✓</span>
+          </span>
+          <span class="ability">
+            联网搜索
+            <span aria-hidden="true">✗</span>
+          </span>
+          <span class="ability">
+            代码执行
+            <span aria-hidden="true">✗</span>
+          </span>
+        </div>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script>
+  document.getElementById('publish').addEventListener('click', () => {
+    showToast('已保存并发布 v1.3');
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>前台02_工作台-文档上传 · Review-AI</title>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="a1-home.html">
+      <span class="brand-mark">R</span>
+      <span>
+        <span class="brand-name">Review-AI</span>
+        <span class="brand-sub">大学生课程复习助手</span>
+      </span>
+    </a>
+    <div class="nav-right">
+      <nav class="nav-links">
+        <a href="a1-home.html">首页</a>
+        <a class="active" href="a2-workbench.html">工作台</a>
+        <a href="a5-history.html">历史记录</a>
+      </nav>
+      <a class="btn btn-primary" href="a2-workbench.html">开始复习</a>
+    </div>
+  </div>
+</header>
+
+<main class="container" style="padding-top: 32px; padding-bottom: 64px;">
+  <div class="breadcrumb">
+    <a class="breadcrumb-link" href="a2-workbench.html">工作台</a>
+    <span class="sep">/</span>
+    <span class="current">我的资料</span>
+  </div>
+
+  <div class="page-head" style="margin-top: 8px;">
+    <h1 class="page-title">准备复习资料</h1>
+    <button class="btn btn-primary" type="button" data-upload>
+      <iconify-icon icon="@fixed:lucide:plus" aria-hidden="true"></iconify-icon>
+      上传新资料
+    </button>
+  </div>
+
+  <div class="workbench" style="margin-top: 24px;">
+    <!-- 左：已上传资料 -->
+    <section class="card card-pad-sm" aria-label="已上传资料">
+      <div class="panel-head">
+        <h2 class="card-title">已上传资料</h2>
+        <span class="count-badge"><span id="docCount">3</span> 份</span>
+      </div>
+
+      <div class="doc-list" id="docList">
+        <div class="doc-card is-selected" data-name="数据结构_第5章_树与二叉树.pdf" data-size="2.4MB" tabindex="0">
+          <div class="doc-thumb">PDF</div>
+          <div class="doc-info">
+            <div class="doc-name">数据结构_第5章_树与二叉树.pdf</div>
+            <div class="doc-sub">2.4MB</div>
+          </div>
+          <span class="status-pill ok doc-status">已解析</span>
+        </div>
+
+        <div class="doc-card" data-name="操作系统_进程管理笔记.txt" data-size="86KB" tabindex="0">
+          <div class="doc-thumb is-txt">TXT</div>
+          <div class="doc-info">
+            <div class="doc-name">操作系统_进程管理笔记.txt</div>
+            <div class="doc-sub">86KB</div>
+          </div>
+          <span class="status-pill ok doc-status">已解析</span>
+        </div>
+
+        <div class="doc-card is-disabled" aria-disabled="true">
+          <div class="doc-thumb">PDF</div>
+          <div class="doc-info">
+            <div class="doc-name">计算机网络_复习提纲.pdf</div>
+            <div class="doc-sub">5.1MB</div>
+          </div>
+          <span class="status-pill doing doc-status">解析中</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px;">
+        <button class="btn btn-secondary btn-block" type="button" data-upload>
+          <iconify-icon icon="@fixed:lucide:plus" aria-hidden="true"></iconify-icon>
+          上传新资料
+        </button>
+      </div>
+    </section>
+
+    <!-- 右：上传与选用 -->
+    <section>
+      <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="拖拽或点击上传文件">
+        <div class="drop-icon" aria-hidden="true"><span class="symbol">↑</span></div>
+        <p class="drop-line">
+          拖拽文件到此处，或
+          <button class="drop-link" type="button" data-upload>点击选择文件</button>
+        </p>
+        <p class="drop-tip">支持 PDF / TXT，单文件不超过 20MB</p>
+        <input id="fileInput" type="file" accept=".pdf,.txt" hidden>
+      </div>
+
+      <div class="selected-bar">
+        <div>
+          <div class="selected-label">当前选用资料</div>
+          <div class="selected-name" id="selectedName">数据结构_第5章_树与二叉树.pdf · 2.4MB</div>
+        </div>
+        <a class="btn btn-primary" href="a3-chat-empty.html">用这份资料开始复习</a>
+      </div>
+
+      <div class="alert alert-gold" style="margin-top: 16px;">
+        <span class="alert-icon" aria-hidden="true">!</span>
+        <span>扫描版 PDF（图片型）识别效果有限，建议使用文字版 PDF 或 TXT。解析失败的文件可在列表中点「重新上传」。</span>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const docList = document.getElementById('docList');
+  const docCount = document.getElementById('docCount');
+  const selectedName = document.getElementById('selectedName');
+  const dropzone = document.getElementById('dropzone');
+
+  const openPicker = () => fileInput.click();
+  document.querySelectorAll('[data-upload]').forEach((btn) => btn.addEventListener('click', openPicker));
+  dropzone.addEventListener('click', (event) => {
+    if (event.target.closest('button')) return;
+    openPicker();
+  });
+  dropzone.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openPicker(); }
+  });
+
+  function selectCard(card) {
+    document.querySelectorAll('.doc-card').forEach((item) => item.classList.remove('is-selected'));
+    card.classList.add('is-selected');
+    selectedName.textContent = card.dataset.name + ' · ' + card.dataset.size;
+  }
+
+  docList.addEventListener('click', (event) => {
+    const card = event.target.closest('.doc-card');
+    if (!card || card.classList.contains('is-disabled')) return;
+    selectCard(card);
+  });
+  docList.addEventListener('keydown', (event) => {
+    const card = event.target.closest('.doc-card');
+    if (!card || card.classList.contains('is-disabled')) return;
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectCard(card); }
+  });
+
+  function addFile(file) {
+    const isTxt = /\.txt$/i.test(file.name);
+    if (!isTxt && !/\.pdf$/i.test(file.name)) {
+      showToast('仅支持 PDF / TXT 文件');
+      return;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      showToast('单文件不能超过 20MB');
+      return;
+    }
+    const size = file.size >= 1024 * 1024
+      ? (file.size / 1024 / 1024).toFixed(1) + 'MB'
+      : Math.max(1, Math.round(file.size / 1024)) + 'KB';
+    const card = document.createElement('div');
+    card.className = 'doc-card';
+    card.tabIndex = 0;
+    card.dataset.name = file.name;
+    card.dataset.size = size;
+    card.innerHTML = '<div class="doc-thumb' + (isTxt ? ' is-txt' : '') + '">' + (isTxt ? 'TXT' : 'PDF') + '</div>'
+      + '<div class="doc-info"><div class="doc-name"></div><div class="doc-sub">' + size + '</div></div>'
+      + '<span class="status-pill ok doc-status">已解析</span>';
+    card.querySelector('.doc-name').textContent = file.name;
+    docList.prepend(card);
+    selectCard(card);
+    docCount.textContent = String(docList.querySelectorAll('.doc-card').length);
+    showToast('已上传并完成解析');
+  }
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files && fileInput.files[0]) addFile(fileInput.files[0]);
+    fileInput.value = '';
+  });
+
+  ['dragenter', 'dragover'].forEach((type) => dropzone.addEventListener(type, (event) => {
+    event.preventDefault();
+    dropzone.classList.add('is-over');
+  }));
+  ['dragleave', 'drop'].forEach((type) => dropzone.addEventListener(type, (event) => {
+    event.preventDefault();
+    dropzone.classList.remove('is-over');
+  }));
+  dropzone.addEventListener('drop', (event) => {
+    const file = event.dataTransfer && event.dataTransfer.files[0];
+    if (file) addFile(file);
+  });
+</script>
+
+</body>
+</html>

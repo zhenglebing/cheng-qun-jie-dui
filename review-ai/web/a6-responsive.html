@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>前台06_移动端适配 · Review-AI</title>
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body>
+
+<main class="spec-page">
+  <div class="phones">
+    <!-- 左：首页移动版 -->
+    <div class="phone-shell">
+      <div class="phone-screen">
+        <div class="m-nav">
+          <div class="m-brand"><span class="brand-mark">R</span> Review-AI</div>
+          <span class="m-menu" aria-label="菜单" role="img"><span class="symbol" aria-hidden="true">☰</span></span>
+        </div>
+        <div class="m-body">
+          <h1 class="m-title">把课件变成<br>你的复习提纲</h1>
+          <p class="m-sub">上传 PDF 或 TXT，一键提炼考点、生成自测题、讲解难点。</p>
+          <button class="btn btn-gold m-btn" type="button" onclick="window.location.href='a2-workbench.html'" style="margin-top: 16px;">上传课件开始</button>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 24px;">
+            <div class="m-step">
+              <div class="step-num">01</div>
+              <div>
+                <div class="m-step-title">上传资料</div>
+                <div class="m-step-desc">PDF / TXT 自动解析</div>
+              </div>
+            </div>
+            <div class="m-step">
+              <div class="step-num">02</div>
+              <div>
+                <div class="m-step-title">选择指令</div>
+                <div class="m-step-desc">三个按钮覆盖主要动作</div>
+              </div>
+            </div>
+            <div class="m-step">
+              <div class="step-num">03</div>
+              <div>
+                <div class="m-step-title">对话复习</div>
+                <div class="m-step-desc">在提纲上继续追问</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右：对话页移动版 -->
+    <div class="phone-shell">
+      <div class="phone-screen">
+        <div class="m-chat-head">
+          <button class="icon-btn" type="button" aria-label="返回" onclick="history.length > 1 ? history.back() : window.location.href='a3-chat-empty.html'">
+            <span class="symbol" aria-hidden="true">←</span>
+          </button>
+          <span class="name">数据结构_第5章.pdf</span>
+          <a class="icon-btn" href="a3-chat-empty.html" aria-label="关闭">
+            <span class="symbol" aria-hidden="true">×</span>
+          </a>
+        </div>
+
+        <div class="m-chat-body">
+          <div class="m-bubble-ai">已读取《数据结构_第5章.pdf》，可以直接点下面的指令。</div>
+          <div class="m-bubble-user">提炼考点</div>
+          <div class="m-result">
+            <div class="m-result-title"><span class="star">✦</span> 考点提炼</div>
+            <ul>
+              <li>树的定义与基本术语</li>
+              <li>二叉树遍历（递归与非递归）</li>
+              <li>哈夫曼树与 WPL 计算</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="m-chips">
+          <span class="chip is-active"><span class="star">✦</span> 提炼考点</span>
+          <span class="chip"><span class="star">✦</span> 生成习题</span>
+          <span class="chip"><span class="star">✦</span> 知识点答疑</span>
+        </div>
+
+        <div class="m-composer">
+          <div class="m-input">
+            <span style="flex: 1;">输入你的问题…</span>
+            <span class="m-send" aria-hidden="true"><span class="symbol">↑</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="phone-caption">断点 768px：≥768px 为三栏布局；&lt;768px 收起侧栏、单栏堆叠，所有操作按钮高度不小于 44px</p>
+</main>
+
+</body>
+</html>
